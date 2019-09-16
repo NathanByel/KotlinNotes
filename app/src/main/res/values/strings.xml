@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">KotlinGB</string>
     <string name="text_button_toast">Show Toast</string>
+    <string name="mock_text">Mock text</string>
 </resources>

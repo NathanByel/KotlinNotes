@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">KotlinGB</string>
+    <string name="text_button_toast">Show Toast</string>
+</resources>

@@ -1,5 +1,6 @@
 package ru.nbdev.kotlingb.ui.adapter
 
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +36,7 @@ class NotesRecyclerAdapter : RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolde
         fun bind(note: Note) {
             textviewNoteTitle.text = note.title
             textviewNoteText.text = note.text
-            itemView.setBackgroundColor(note.color)
+            (itemView as CardView).setCardBackgroundColor(note.color)
         }
     }
 

@@ -1,5 +1,6 @@
 package ru.nbdev.kotlingb.ui.adapter
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,7 +10,8 @@ import kotlinx.android.synthetic.main.recycler_item_note.view.*
 import ru.nbdev.kotlingb.R
 import ru.nbdev.kotlingb.data.entity.Note
 
-class NotesRecyclerAdapter : RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>() {
+class NotesRecyclerAdapter(val onItemClick: ((Note) -> Unit)? = null,
+                           val onLongItemClick: ((Note) -> Boolean)? = null) : RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>() {
 
     var notes: List<Note> = listOf()
         set(value) {
@@ -29,14 +31,27 @@ class NotesRecyclerAdapter : RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolde
 
     override fun onBindViewHolder(viewHolder: ViewHolder, pos: Int) = viewHolder.bind(notes[pos])
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textviewNoteTitle = itemView.textview_note_title
         private val textviewNoteText = itemView.textview_note_text
 
         fun bind(note: Note) {
             textviewNoteTitle.text = note.title
             textviewNoteText.text = note.text
-            (itemView as CardView).setCardBackgroundColor(note.color)
+
+            val cardView = itemView as CardView
+            cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, note.color.resColor))
+
+            itemView.setOnClickListener {
+                onItemClick?.invoke(note)
+            }
+
+            onLongItemClick?.let {
+                itemView.setOnLongClickListener {
+                    onLongItemClick.invoke(note)
+                    return@setOnLongClickListener true
+                }
+            }
         }
     }
 

@@ -2,4 +2,8 @@
     <string name="app_name">KotlinGB</string>
     <string name="text_button_toast">Show Toast</string>
     <string name="mock_text">Mock text</string>
+    <string name="new_note_title">Новая заметка</string>
+    <string name="remove">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="remove_note">Удалить заметку?</string>
 </resources>

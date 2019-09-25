@@ -24,4 +24,17 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/main_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/recycler_main_notes"
+        app:layout_anchorGravity="end|bottom"
+        app:layout_behavior=".ui.common.FabMainBehavior"/>
+
 </android.support.design.widget.CoordinatorLayout>

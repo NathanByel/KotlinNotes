@@ -3,12 +3,15 @@ package ru.nbdev.kotlingb.ui.activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.nbdev.kotlingb.R
-import ru.nbdev.kotlingb.ui.model.MainViewModel
+import ru.nbdev.kotlingb.data.entity.Note
 import ru.nbdev.kotlingb.ui.adapter.NotesRecyclerAdapter
+import ru.nbdev.kotlingb.ui.model.MainViewModel
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,12 +24,42 @@ class MainActivity : AppCompatActivity() {
 
         recyclerInit()
         liveDataInit()
+
+        main_fab.setOnClickListener {
+            NoteActivity.start(this)
+        }
     }
 
     private fun recyclerInit() {
         recycler_main_notes.layoutManager = GridLayoutManager(this, 2)
-        adapter = NotesRecyclerAdapter()
+        adapter = NotesRecyclerAdapter({
+            NoteActivity.start(this, it)
+        }, {
+            removeNote(it)
+            true
+        })
+
         recycler_main_notes.adapter = adapter
+    }
+
+    private fun removeNote(note: Note) {
+        val dialog = AlertDialog.Builder(this).apply {
+            setTitle(R.string.remove_note)
+            //setMessage("")
+            setCancelable(true)
+
+            setPositiveButton(R.string.remove) { dialog, _ ->
+                viewModel.remove(note)
+                dialog.dismiss()
+            }
+
+            setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        }.create()
+
+        dialog.show()
     }
 
     private fun liveDataInit() {

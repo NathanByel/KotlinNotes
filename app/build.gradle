@@ -10,7 +10,7 @@ androidExtensions {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "ru.nbdev.kotlingb"
+        applicationId "ru.nbdev.kotlinnotes"
         minSdkVersion 22
         targetSdkVersion 28
         versionCode 1

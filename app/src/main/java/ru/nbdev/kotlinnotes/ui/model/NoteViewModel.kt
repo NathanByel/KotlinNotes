@@ -1,9 +1,9 @@
-package ru.nbdev.kotlingb.ui.model
+package ru.nbdev.kotlinnotes.ui.model
 
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import ru.nbdev.kotlingb.data.NotesRepository
-import ru.nbdev.kotlingb.data.entity.Note
+import ru.nbdev.kotlinnotes.data.NotesRepository
+import ru.nbdev.kotlinnotes.data.entity.Note
 
 class NoteViewModel : ViewModel() {
 

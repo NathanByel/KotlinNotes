@@ -1,4 +1,4 @@
-package ru.nbdev.kotlingb.ui.common
+package ru.nbdev.kotlinnotes.ui.common
 
 import android.annotation.SuppressLint
 import android.content.Context

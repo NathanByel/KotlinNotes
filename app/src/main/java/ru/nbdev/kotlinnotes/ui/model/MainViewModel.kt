@@ -1,10 +1,10 @@
-package ru.nbdev.kotlingb.ui.model
+package ru.nbdev.kotlinnotes.ui.model
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import ru.nbdev.kotlingb.data.NotesRepository
-import ru.nbdev.kotlingb.data.entity.Note
+import ru.nbdev.kotlinnotes.data.NotesRepository
+import ru.nbdev.kotlinnotes.data.entity.Note
 
 class MainViewModel : ViewModel() {
 

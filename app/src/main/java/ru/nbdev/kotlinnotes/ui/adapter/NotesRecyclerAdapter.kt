@@ -1,4 +1,4 @@
-package ru.nbdev.kotlingb.ui.adapter
+package ru.nbdev.kotlinnotes.ui.adapter
 
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.recycler_item_note.view.*
-import ru.nbdev.kotlingb.R
-import ru.nbdev.kotlingb.data.entity.Note
+import ru.nbdev.kotlinnotes.R
+import ru.nbdev.kotlinnotes.data.entity.Note
 
 class NotesRecyclerAdapter(val onItemClick: ((Note) -> Unit)? = null,
                            val onLongItemClick: ((Note) -> Boolean)? = null) : RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>() {

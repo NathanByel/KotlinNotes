@@ -1,8 +1,8 @@
-package ru.nbdev.kotlingb.data
+package ru.nbdev.kotlinnotes.data
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import ru.nbdev.kotlingb.data.entity.Note
+import ru.nbdev.kotlinnotes.data.entity.Note
 import java.util.*
 
 object NotesRepository {

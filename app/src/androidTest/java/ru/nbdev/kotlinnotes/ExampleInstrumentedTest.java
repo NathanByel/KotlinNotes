@@ -1,4 +1,4 @@
-package ru.nbdev.kotlingb;
+package ru.nbdev.kotlinnotes;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ru.nbdev.kotlingb", appContext.getPackageName());
+        assertEquals("ru.nbdev.kotlinnotes", appContext.getPackageName());
     }
 }

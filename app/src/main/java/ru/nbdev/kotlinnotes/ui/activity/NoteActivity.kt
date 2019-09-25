@@ -1,4 +1,4 @@
-package ru.nbdev.kotlingb.ui.activity
+package ru.nbdev.kotlinnotes.ui.activity
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -12,9 +12,9 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_note.*
-import ru.nbdev.kotlingb.R
-import ru.nbdev.kotlingb.data.entity.Note
-import ru.nbdev.kotlingb.ui.model.NoteViewModel
+import ru.nbdev.kotlinnotes.R
+import ru.nbdev.kotlinnotes.data.entity.Note
+import ru.nbdev.kotlinnotes.ui.model.NoteViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -1,4 +1,4 @@
-package ru.nbdev.kotlingb.ui.activity
+package ru.nbdev.kotlinnotes.ui.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -7,10 +7,10 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.nbdev.kotlingb.R
-import ru.nbdev.kotlingb.data.entity.Note
-import ru.nbdev.kotlingb.ui.adapter.NotesRecyclerAdapter
-import ru.nbdev.kotlingb.ui.model.MainViewModel
+import ru.nbdev.kotlinnotes.R
+import ru.nbdev.kotlinnotes.data.entity.Note
+import ru.nbdev.kotlinnotes.ui.adapter.NotesRecyclerAdapter
+import ru.nbdev.kotlinnotes.ui.model.MainViewModel
 
 
 class MainActivity : AppCompatActivity() {

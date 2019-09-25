@@ -1,8 +1,8 @@
-package ru.nbdev.kotlingb.data.entity
+package ru.nbdev.kotlinnotes.data.entity
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import ru.nbdev.kotlingb.R
+import ru.nbdev.kotlinnotes.R
 import java.util.*
 
 @Parcelize

@@ -1,4 +1,4 @@
-package ru.nbdev.kotlingb;
+package ru.nbdev.kotlinnotes;
 
 import org.junit.Test;
 

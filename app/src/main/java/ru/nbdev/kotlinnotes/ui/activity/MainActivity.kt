@@ -1,29 +1,31 @@
 package ru.nbdev.kotlinnotes.ui.activity
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.nbdev.kotlinnotes.R
 import ru.nbdev.kotlinnotes.data.entity.Note
 import ru.nbdev.kotlinnotes.ui.adapter.NotesRecyclerAdapter
+import ru.nbdev.kotlinnotes.ui.base.BaseActivity
 import ru.nbdev.kotlinnotes.ui.model.MainViewModel
+import ru.nbdev.kotlinnotes.ui.model.MainViewState
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
 
-    lateinit var viewModel: MainViewModel
+    override val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
+
+    override val layoutRes = R.layout.activity_main
     lateinit var adapter: NotesRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         recyclerInit()
-        liveDataInit()
 
         main_fab.setOnClickListener {
             NoteActivity.start(this)
@@ -62,11 +64,9 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun liveDataInit() {
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
-        viewModel.viewState().observe(this, Observer { viewState ->
-            viewState?.let { adapter.notes = it.notes }
-        })
+    override fun renderData(data: List<Note>?) {
+        data?.let {
+            adapter.notes = it
+        }
     }
 }

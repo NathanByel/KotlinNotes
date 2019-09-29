@@ -1,29 +1,36 @@
 package ru.nbdev.kotlinnotes.ui.model
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.Observer
 import ru.nbdev.kotlinnotes.data.NotesRepository
 import ru.nbdev.kotlinnotes.data.entity.Note
+import ru.nbdev.kotlinnotes.data.model.NoteResult
+import ru.nbdev.kotlinnotes.ui.base.BaseViewModel
 
-class MainViewModel : ViewModel() {
+class MainViewModel : BaseViewModel<List<Note>?, MainViewState>() {
 
-    private val viewStateLiveData = MutableLiveData<MainViewState>()
+    private val notesObserver = Observer<NoteResult> {
+        if (it == null) {
+            return@Observer
+        }
 
-    /*init {
-        NotesRepository.getNotes().observeForever {
-            it?.let {
-                viewStateLiveData.value = MainViewState(it)
+        when (it) {
+            is NoteResult.Success<*> -> {
+                viewStateLiveData.value = MainViewState(notes = it.data as? List<Note>)
+            }
+
+            is NoteResult.Error -> {
+                viewStateLiveData.value = MainViewState(error = it.error)
             }
         }
-    }*/
+    }
+
+    private val repositoryNotes = NotesRepository.getNotes()
 
     init {
-        NotesRepository.getNotes().observeForever {
-            viewStateLiveData.value = viewStateLiveData.value?.copy(notes = it!!)
-                    ?: MainViewState(it!!)
-        }
+        viewStateLiveData.value = MainViewState()
+        repositoryNotes.observeForever(notesObserver)
     }
+
 
     fun remove(note: Note) {
         note.let {
@@ -31,5 +38,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun viewState(): LiveData<MainViewState> = viewStateLiveData
+    override fun onCleared() {
+        repositoryNotes.removeObserver(notesObserver)
+    }
 }

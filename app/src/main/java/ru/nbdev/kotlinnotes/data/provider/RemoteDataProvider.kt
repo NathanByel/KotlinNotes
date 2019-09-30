@@ -2,6 +2,7 @@ package ru.nbdev.kotlinnotes.data.provider
 
 import android.arch.lifecycle.LiveData
 import ru.nbdev.kotlinnotes.data.entity.Note
+import ru.nbdev.kotlinnotes.data.entity.User
 import ru.nbdev.kotlinnotes.data.model.NoteResult
 
 interface RemoteDataProvider {
@@ -9,4 +10,5 @@ interface RemoteDataProvider {
     fun getNoteById(id: String): LiveData<NoteResult>
     fun saveNote(note: Note): LiveData<NoteResult>
     fun removeNote(note: Note): LiveData<NoteResult>
+    fun getCurrentUser(): LiveData<User?>
 }

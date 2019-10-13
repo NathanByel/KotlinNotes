@@ -6,4 +6,9 @@
     <string name="remove">Удалить</string>
     <string name="cancel">Отмена</string>
     <string name="remove_note">Удалить заметку?</string>
+    <string name="menu_logout">Выход</string>
+    <string name="logout_dialog_exit">Выход</string>
+    <string name="are_you_shure">Вы уверены?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>

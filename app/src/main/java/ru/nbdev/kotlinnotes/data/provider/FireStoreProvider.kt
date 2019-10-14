@@ -2,6 +2,7 @@ package ru.nbdev.kotlinnotes.data.provider
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.github.ajalt.timberkt.Timber
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -10,34 +11,21 @@ import ru.nbdev.kotlinnotes.data.entity.User
 import ru.nbdev.kotlinnotes.data.errors.NoAuthException
 import ru.nbdev.kotlinnotes.data.model.NoteResult
 
-class FireStoreProvider : RemoteDataProvider {
-
+class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val store: FirebaseFirestore) : RemoteDataProvider {
 
     companion object {
         private const val USERS_COLLECTION = "users"
         private const val NOTES_COLLECTION = "notes"
     }
 
-    private val store = FirebaseFirestore.getInstance()
-
     private val currentUser
-        get() = FirebaseAuth.getInstance().currentUser
+        get() = firebaseAuth.currentUser
 
-    override fun getCurrentUser(): LiveData<User?> {
-        val data = MutableLiveData<User>()
-
-        data.value = currentUser?.let {
-            User(it.displayName ?: "", it.email ?: "")
-        }
-
-        return data
-    }
-
-    /*override fun getCurrentUser(): LiveData<User?> = MutableLiveData<User>().apply {
+    override fun getCurrentUser(): LiveData<User?> = MutableLiveData<User>().apply {
         value = currentUser?.let {
             User(it.displayName ?: "", it.email ?: "")
         }
-    }*/
+    }
 
     private fun getUserNotesCollection(): CollectionReference {
         currentUser?.let {
@@ -90,10 +78,10 @@ class FireStoreProvider : RemoteDataProvider {
             getUserNotesCollection()
                     .document(note.id)
                     .set(note).addOnSuccessListener {
-                        //Timber.d { "Note $note is saved" }
+                        Timber.d { "Note $note is saved" }
                         result.value = NoteResult.Success(note)
                     }.addOnFailureListener {
-                        //Timber.e(it) { "Error saving note $note with message: ${it.message}" }
+                        Timber.e(it) { "Error saving note $note with message: ${it.message}" }
                         result.value = NoteResult.Error(it)
                     }
         } catch (e: Throwable) {

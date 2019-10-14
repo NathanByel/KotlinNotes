@@ -4,11 +4,11 @@ import ru.nbdev.kotlinnotes.data.NotesRepository
 import ru.nbdev.kotlinnotes.data.errors.NoAuthException
 import ru.nbdev.kotlinnotes.ui.base.BaseViewModel
 
-class SplashViewModel : BaseViewModel<Boolean?, SplashViewState>() {
+class SplashViewModel(private val notesRepository: NotesRepository) : BaseViewModel<Boolean?, SplashViewState>() {
 
     fun requestUser() {
-        NotesRepository.getCurrentUser().observeForever {
-            viewStateLiveData.value = if (it != null) {
+        notesRepository.getCurrentUser().observeForever { user ->
+            viewStateLiveData.value = if (user != null) {
                 SplashViewState(authenticated = true)
             } else {
                 SplashViewState(error = NoAuthException())

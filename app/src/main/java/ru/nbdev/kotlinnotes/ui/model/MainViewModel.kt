@@ -6,35 +6,34 @@ import ru.nbdev.kotlinnotes.data.entity.Note
 import ru.nbdev.kotlinnotes.data.model.NoteResult
 import ru.nbdev.kotlinnotes.ui.base.BaseViewModel
 
-class MainViewModel : BaseViewModel<List<Note>?, MainViewState>() {
+class MainViewModel(private val notesRepository: NotesRepository) : BaseViewModel<List<Note>?, MainViewState>() {
 
-    private val notesObserver = Observer<NoteResult> {
-        if (it == null) {
+    private val notesObserver = Observer<NoteResult> { noteResult ->
+        if (noteResult == null) {
             return@Observer
         }
 
-        when (it) {
+        when (noteResult) {
             is NoteResult.Success<*> -> {
-                viewStateLiveData.value = MainViewState(notes = it.data as? List<Note>)
+                viewStateLiveData.value = MainViewState(notes = noteResult.data as? List<Note>)
             }
 
             is NoteResult.Error -> {
-                viewStateLiveData.value = MainViewState(error = it.error)
+                viewStateLiveData.value = MainViewState(error = noteResult.error)
             }
         }
     }
 
-    private val repositoryNotes = NotesRepository.getNotes()
+    private val repositoryNotes = notesRepository.getNotes()
 
     init {
         viewStateLiveData.value = MainViewState()
         repositoryNotes.observeForever(notesObserver)
     }
 
-
-    fun remove(note: Note) {
+    fun removeNote(note: Note) {
         note.let {
-            NotesRepository.removeNote(it)
+            notesRepository.removeNote(it)
         }
     }
 

@@ -2,7 +2,6 @@ package ru.nbdev.kotlinnotes.data.entity
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import ru.nbdev.kotlinnotes.R
 import java.util.*
 
 @Parcelize
@@ -14,16 +13,6 @@ data class Note(
         val lastChanged: Date = Date()
 ) : Parcelable {
 
-    enum class Color(val resColor: Int) {
-        WHITE(R.color.white),
-        YELLOW(R.color.yellow),
-        GREEN(R.color.green),
-        BLUE(R.color.blue),
-        RED(R.color.red),
-        VIOLET(R.color.violet),
-        PINK(R.color.pink)
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -32,5 +21,15 @@ data class Note(
 
         if (id != other.id) return false
         return true
+    }
+
+    enum class Color {
+        WHITE,
+        YELLOW,
+        GREEN,
+        BLUE,
+        RED,
+        VIOLET,
+        PINK
     }
 }

@@ -1,26 +1,25 @@
 package ru.nbdev.kotlinnotes.ui.activity
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
+import org.koin.android.viewmodel.ext.android.viewModel
 import ru.nbdev.kotlinnotes.R
 import ru.nbdev.kotlinnotes.data.entity.Note
 import ru.nbdev.kotlinnotes.ui.adapter.NotesRecyclerAdapter
 import ru.nbdev.kotlinnotes.ui.base.BaseActivity
-import ru.nbdev.kotlinnotes.ui.fragments.LogoutDialog
 import ru.nbdev.kotlinnotes.ui.model.MainViewModel
 import ru.nbdev.kotlinnotes.ui.model.MainViewState
 
 
-class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.LogoutListener {
+class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
 
     companion object {
         fun start(context: Context) {
@@ -29,12 +28,9 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
         }
     }
 
-    override val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this).get(MainViewModel::class.java)
-    }
-
+    override val model: MainViewModel by viewModel()
     override val layoutRes = R.layout.activity_main
-    lateinit var adapter: NotesRecyclerAdapter
+    private lateinit var adapter: NotesRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +38,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
 
         recyclerInit()
 
-        main_fab.setOnClickListener {
+        fab.setOnClickListener {
             NoteActivity.start(this)
         }
     }
@@ -60,23 +56,11 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
     }
 
     private fun removeNote(note: Note) {
-        val dialog = AlertDialog.Builder(this).apply {
-            setTitle(R.string.remove_note)
-            //setMessage("")
-            setCancelable(true)
-
-            setPositiveButton(R.string.remove) { dialog, _ ->
-                viewModel.remove(note)
-                dialog.dismiss()
-            }
-
-            setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
-
-        }.create()
-
-        dialog.show()
+        alert {
+            titleResource = R.string.remove_note_dialog_title
+            positiveButton(R.string.remove_note_dialog_positive) { model.removeNote(note) }
+            negativeButton(R.string.remove_note_dialog_negative) { dialog -> dialog.dismiss() }
+        }.show()
     }
 
     override fun renderData(data: List<Note>?) {
@@ -93,11 +77,15 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
     }
 
     private fun showLogoutDialog() {
-        supportFragmentManager.findFragmentByTag(LogoutDialog.TAG)
-                ?: LogoutDialog.createInstance().show(supportFragmentManager, LogoutDialog.TAG)
+        alert {
+            titleResource = R.string.logout_dialog_title
+            messageResource = R.string.logout_dialog_message
+            positiveButton(R.string.logout_dialog_positive) { logout() }
+            negativeButton(R.string.logout_dialog_negative) { dialog -> dialog.dismiss() }
+        }.show()
     }
 
-    override fun onLogout() {
+    private fun logout() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener {

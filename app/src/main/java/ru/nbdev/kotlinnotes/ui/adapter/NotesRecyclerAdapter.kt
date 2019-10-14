@@ -1,6 +1,5 @@
 package ru.nbdev.kotlinnotes.ui.adapter
 
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.recycler_item_note.view.*
 import ru.nbdev.kotlinnotes.R
+import ru.nbdev.kotlinnotes.common.getColorInt
 import ru.nbdev.kotlinnotes.data.entity.Note
 
 class NotesRecyclerAdapter(val onItemClick: ((Note) -> Unit)? = null,
@@ -32,15 +32,15 @@ class NotesRecyclerAdapter(val onItemClick: ((Note) -> Unit)? = null,
     override fun onBindViewHolder(viewHolder: ViewHolder, pos: Int) = viewHolder.bind(notes[pos])
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textviewNoteTitle = itemView.textview_note_title
-        private val textviewNoteText = itemView.textview_note_text
 
         fun bind(note: Note) {
-            textviewNoteTitle.text = note.title
-            textviewNoteText.text = note.text
+            with(itemView) {
+                textview_note_title.text = note.title
+                textview_note_text.text = note.text
 
-            val cardView = itemView as CardView
-            cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, note.color.resColor))
+                val cardView = itemView as CardView
+                cardView.setCardBackgroundColor(note.color.getColorInt(context))
+            }
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(note)

@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">KotlinNotes</string>
     <string name="text_button_toast">Show Toast</string>
-    <string name="mock_text">Mock text</string>
     <string name="new_note_title">Новая заметка</string>
-    <string name="remove">Удалить</string>
-    <string name="cancel">Отмена</string>
-    <string name="remove_note">Удалить заметку?</string>
+    <string name="remove_note_dialog_positive">Удалить</string>
+    <string name="remove_note_dialog_negative">Отмена</string>
+    <string name="remove_note_dialog_title">Удалить заметку?</string>
     <string name="menu_logout">Выход</string>
-    <string name="logout_dialog_exit">Выход</string>
-    <string name="are_you_shure">Вы уверены?</string>
-    <string name="yes">Да</string>
-    <string name="no">Нет</string>
+    <string name="logout_dialog_title">Выход</string>
+    <string name="logout_dialog_message">Вы уверены?</string>
+    <string name="logout_dialog_positive">Да</string>
+    <string name="logout_dialog_negative">Нет</string>
+    <string name="note_change_color">Цвет</string>
+    <string name="note_delete">Удалить</string>
+    <string name="hint_note_title">Заголовок</string>
+    <string name="hint_note_text">Текст заметки</string>
 </resources>

@@ -6,31 +6,32 @@ import ru.nbdev.kotlinnotes.data.entity.Note
 import ru.nbdev.kotlinnotes.data.model.NoteResult
 import ru.nbdev.kotlinnotes.ui.base.BaseViewModel
 
-class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
+class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewModel<Note?, NoteViewState>() {
 
     init {
         viewStateLiveData.value = NoteViewState()
     }
 
-    private var pendingNote: Note? = null
+    private val pendingNote: Note?
+        get() = viewStateLiveData.value?.data
 
     fun save(note: Note) {
-        pendingNote = note
+        viewStateLiveData.value = NoteViewState(note = note)
     }
 
     override fun onCleared() {
         pendingNote?.let {
-            NotesRepository.saveNote(it)
+            notesRepository.saveNote(it)
         }
     }
 
     fun loadNote(noteId: String) {
-        NotesRepository.getNoteById(noteId).observeForever(Observer<NoteResult> {
-            if (it == null) return@Observer
+        notesRepository.getNoteById(noteId).observeForever(Observer<NoteResult> { noteResult ->
+            if (noteResult == null) return@Observer
 
-            when (it) {
-                is NoteResult.Success<*> -> viewStateLiveData.value = NoteViewState(note = it.data as? Note)
-                is NoteResult.Error -> viewStateLiveData.value = NoteViewState(error = it.error)
+            when (noteResult) {
+                is NoteResult.Success<*> -> viewStateLiveData.value = NoteViewState(note = noteResult.data as? Note)
+                is NoteResult.Error -> viewStateLiveData.value = NoteViewState(error = noteResult.error)
             }
         })
     }

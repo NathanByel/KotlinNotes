@@ -1,11 +1,14 @@
 package ru.nbdev.kotlinnotes.ui.model
 
 import android.arch.lifecycle.Observer
+import android.support.annotation.VisibleForTesting
+import ru.nbdev.kotlinnotes.OpenClassOnDebug
 import ru.nbdev.kotlinnotes.data.NotesRepository
 import ru.nbdev.kotlinnotes.data.entity.Note
 import ru.nbdev.kotlinnotes.data.model.NoteResult
 import ru.nbdev.kotlinnotes.ui.base.BaseViewModel
 
+@OpenClassOnDebug
 class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewModel<Note?, NoteViewState>() {
 
     init {
@@ -19,12 +22,6 @@ class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewMode
         viewStateLiveData.value = NoteViewState(note = note)
     }
 
-    override fun onCleared() {
-        pendingNote?.let {
-            notesRepository.saveNote(it)
-        }
-    }
-
     fun loadNote(noteId: String) {
         notesRepository.getNoteById(noteId).observeForever(Observer<NoteResult> { noteResult ->
             if (noteResult == null) return@Observer
@@ -34,5 +31,12 @@ class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewMode
                 is NoteResult.Error -> viewStateLiveData.value = NoteViewState(error = noteResult.error)
             }
         })
+    }
+
+    @VisibleForTesting
+    public override fun onCleared() {
+        pendingNote?.let {
+            notesRepository.saveNote(it)
+        }
     }
 }

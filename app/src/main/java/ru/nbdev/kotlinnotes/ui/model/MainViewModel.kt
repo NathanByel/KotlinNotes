@@ -1,11 +1,14 @@
 package ru.nbdev.kotlinnotes.ui.model
 
 import android.arch.lifecycle.Observer
+import android.support.annotation.VisibleForTesting
+import ru.nbdev.kotlinnotes.OpenClassOnDebug
 import ru.nbdev.kotlinnotes.data.NotesRepository
 import ru.nbdev.kotlinnotes.data.entity.Note
 import ru.nbdev.kotlinnotes.data.model.NoteResult
 import ru.nbdev.kotlinnotes.ui.base.BaseViewModel
 
+@OpenClassOnDebug
 class MainViewModel(private val notesRepository: NotesRepository) : BaseViewModel<List<Note>?, MainViewState>() {
 
     private val notesObserver = Observer<NoteResult> { noteResult ->
@@ -32,12 +35,11 @@ class MainViewModel(private val notesRepository: NotesRepository) : BaseViewMode
     }
 
     fun removeNote(note: Note) {
-        note.let {
-            notesRepository.removeNote(it)
-        }
+        notesRepository.removeNote(note)
     }
 
-    override fun onCleared() {
+    @VisibleForTesting
+    public override fun onCleared() {
         repositoryNotes.removeObserver(notesObserver)
     }
 }

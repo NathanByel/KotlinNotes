@@ -35,6 +35,6 @@
         app:fabSize="normal"
         app:layout_anchor="@id/recycler_main_notes"
         app:layout_anchorGravity="end|bottom"
-        app:layout_behavior=".ui.common.FabMainBehavior"/>
+        app:layout_behavior=".ui.common.FabMainBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>
